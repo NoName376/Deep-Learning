@@ -1,0 +1,31 @@
+import numpy as np
+
+w = np.zeros(2, dtype=float)
+b = 0.0
+n = 0.5
+examples = [
+    (np.array([1.0, 1.0]), 1),
+    (np.array([0.0, 0.0]), 0),
+]
+
+for x_i, target in examples:
+    score = np.dot(w, x_i) + b
+    pred = 1 if score > 0 else 0
+    error = target - pred
+    
+    w_new = w + n * error * x_i
+    b_new = b + n * error
+
+    print("score, prediction, error:", score, pred, error)
+    print("new parameters:", w_new, b_new)
+
+    w, b = w_new, b_new
+
+
+def perceptron_predict(X, w, b):
+    z =  X @ w + b
+    prediction = (z>=0).astype(int)
+    return z, prediction 
+
+X = np.array([[0., 0.], [0., 1.], [1., 0.], [1., 1.]])
+print("all AND predictions:", perceptron_predict(X, w, b)[1])
